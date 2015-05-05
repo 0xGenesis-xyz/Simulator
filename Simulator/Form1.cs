@@ -40,5 +40,10 @@ namespace Simulator
                 textBoxAssemblyCode.Text+=Environment.NewLine;
             }
         }
+
+        private void stepIntoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

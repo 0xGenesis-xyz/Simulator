@@ -31,6 +31,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fILEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eDITToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bUILDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.assemblingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.disassemblingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dEBUGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hELPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxAssemblyCode = new System.Windows.Forms.TextBox();
             this.textBoxMachineCode = new System.Windows.Forms.TextBox();
@@ -70,10 +74,12 @@
             this.textBoxR14 = new System.Windows.Forms.TextBox();
             this.labelR15 = new System.Windows.Forms.Label();
             this.textBoxR15 = new System.Windows.Forms.TextBox();
-            this.bUILDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dEBUGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.assemblingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.disassemblingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stepIntoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBoxA02 = new System.Windows.Forms.TextBox();
+            this.labelA02 = new System.Windows.Forms.Label();
+            this.textBoxA03 = new System.Windows.Forms.TextBox();
+            this.labelA03 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,6 +109,41 @@
             this.eDITToolStripMenuItem.Size = new System.Drawing.Size(47, 21);
             this.eDITToolStripMenuItem.Text = "EDIT";
             // 
+            // bUILDToolStripMenuItem
+            // 
+            this.bUILDToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.assemblingToolStripMenuItem,
+            this.disassemblingToolStripMenuItem});
+            this.bUILDToolStripMenuItem.Name = "bUILDToolStripMenuItem";
+            this.bUILDToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
+            this.bUILDToolStripMenuItem.Text = "BUILD";
+            // 
+            // assemblingToolStripMenuItem
+            // 
+            this.assemblingToolStripMenuItem.Name = "assemblingToolStripMenuItem";
+            this.assemblingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.assemblingToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.assemblingToolStripMenuItem.Text = "Assembling";
+            this.assemblingToolStripMenuItem.Click += new System.EventHandler(this.assemblingToolStripMenuItem_Click);
+            // 
+            // disassemblingToolStripMenuItem
+            // 
+            this.disassemblingToolStripMenuItem.Name = "disassemblingToolStripMenuItem";
+            this.disassemblingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.disassemblingToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.disassemblingToolStripMenuItem.Text = "Disassembling";
+            this.disassemblingToolStripMenuItem.Click += new System.EventHandler(this.disassemblingToolStripMenuItem_Click);
+            // 
+            // dEBUGToolStripMenuItem
+            // 
+            this.dEBUGToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runToolStripMenuItem,
+            this.stepIntoToolStripMenuItem});
+            this.dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
+            this.dEBUGToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.dEBUGToolStripMenuItem.Size = new System.Drawing.Size(62, 21);
+            this.dEBUGToolStripMenuItem.Text = "DEBUG";
+            // 
             // hELPToolStripMenuItem
             // 
             this.hELPToolStripMenuItem.Name = "hELPToolStripMenuItem";
@@ -130,7 +171,7 @@
             // labelA01
             // 
             this.labelA01.AutoSize = true;
-            this.labelA01.Location = new System.Drawing.Point(709, 54);
+            this.labelA01.Location = new System.Drawing.Point(709, 55);
             this.labelA01.Name = "labelA01";
             this.labelA01.Size = new System.Drawing.Size(65, 12);
             this.labelA01.TabIndex = 3;
@@ -138,7 +179,7 @@
             // 
             // textBoxA01
             // 
-            this.textBoxA01.Location = new System.Drawing.Point(780, 51);
+            this.textBoxA01.Location = new System.Drawing.Point(780, 52);
             this.textBoxA01.Name = "textBoxA01";
             this.textBoxA01.Size = new System.Drawing.Size(140, 21);
             this.textBoxA01.TabIndex = 4;
@@ -418,42 +459,64 @@
             this.textBoxR15.Size = new System.Drawing.Size(109, 21);
             this.textBoxR15.TabIndex = 31;
             // 
-            // bUILDToolStripMenuItem
+            // runToolStripMenuItem
             // 
-            this.bUILDToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.assemblingToolStripMenuItem,
-            this.disassemblingToolStripMenuItem});
-            this.bUILDToolStripMenuItem.Name = "bUILDToolStripMenuItem";
-            this.bUILDToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
-            this.bUILDToolStripMenuItem.Text = "BUILD";
+            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
+            this.runToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.runToolStripMenuItem.Text = "Run";
             // 
-            // dEBUGToolStripMenuItem
+            // stepIntoToolStripMenuItem
             // 
-            this.dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
-            this.dEBUGToolStripMenuItem.Size = new System.Drawing.Size(62, 21);
-            this.dEBUGToolStripMenuItem.Text = "DEBUG";
+            this.stepIntoToolStripMenuItem.Name = "stepIntoToolStripMenuItem";
+            this.stepIntoToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
+            this.stepIntoToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.stepIntoToolStripMenuItem.Text = "Step Into";
+            this.stepIntoToolStripMenuItem.Click += new System.EventHandler(this.stepIntoToolStripMenuItem_Click);
             // 
-            // assemblingToolStripMenuItem
+            // textBoxA02
             // 
-            this.assemblingToolStripMenuItem.Name = "assemblingToolStripMenuItem";
-            this.assemblingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.assemblingToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.assemblingToolStripMenuItem.Text = "Assembling";
-            this.assemblingToolStripMenuItem.Click += new System.EventHandler(this.assemblingToolStripMenuItem_Click);
+            this.textBoxA02.Location = new System.Drawing.Point(780, 79);
+            this.textBoxA02.Name = "textBoxA02";
+            this.textBoxA02.Size = new System.Drawing.Size(140, 21);
+            this.textBoxA02.TabIndex = 40;
+            this.textBoxA02.Text = "12345678901234567890123456789012";
             // 
-            // disassemblingToolStripMenuItem
+            // labelA02
             // 
-            this.disassemblingToolStripMenuItem.Name = "disassemblingToolStripMenuItem";
-            this.disassemblingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.disassemblingToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.disassemblingToolStripMenuItem.Text = "Disassembling";
-            this.disassemblingToolStripMenuItem.Click += new System.EventHandler(this.disassemblingToolStripMenuItem_Click);
+            this.labelA02.AutoSize = true;
+            this.labelA02.Location = new System.Drawing.Point(709, 82);
+            this.labelA02.Name = "labelA02";
+            this.labelA02.Size = new System.Drawing.Size(65, 12);
+            this.labelA02.TabIndex = 39;
+            this.labelA02.Text = "0x30000004";
+            // 
+            // textBoxA03
+            // 
+            this.textBoxA03.Location = new System.Drawing.Point(780, 106);
+            this.textBoxA03.Name = "textBoxA03";
+            this.textBoxA03.Size = new System.Drawing.Size(140, 21);
+            this.textBoxA03.TabIndex = 42;
+            this.textBoxA03.Text = "12345678901234567890123456789012";
+            // 
+            // labelA03
+            // 
+            this.labelA03.AutoSize = true;
+            this.labelA03.Location = new System.Drawing.Point(709, 109);
+            this.labelA03.Name = "labelA03";
+            this.labelA03.Size = new System.Drawing.Size(65, 12);
+            this.labelA03.TabIndex = 41;
+            this.labelA03.Text = "0x30000008";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 601);
+            this.Controls.Add(this.textBoxA03);
+            this.Controls.Add(this.labelA03);
+            this.Controls.Add(this.textBoxA02);
+            this.Controls.Add(this.labelA02);
             this.Controls.Add(this.labelR12);
             this.Controls.Add(this.textBoxR12);
             this.Controls.Add(this.labelR13);
@@ -551,6 +614,12 @@
         private System.Windows.Forms.ToolStripMenuItem assemblingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disassemblingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dEBUGToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stepIntoToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBoxA02;
+        private System.Windows.Forms.Label labelA02;
+        private System.Windows.Forms.TextBox textBoxA03;
+        private System.Windows.Forms.Label labelA03;
     }
 }
 
