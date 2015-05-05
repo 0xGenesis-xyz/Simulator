@@ -17,18 +17,18 @@ namespace Simulator
 
         public string converting(string IR)
 		{
-			string ins="";
+			string machineCode="";
 			string[] split=IR.Split(' ');
 			switch (split[0])
 			{
-				case "add": ins="000000"+Rtype(split[1])+"00000100000"; break;
-				case "sub": ins="000000"+Rtype(split[1])+"00000100010"; break;
-				case "slt": ins="000000"+Rtype(split[1])+"00000101010"; break;
-				case "lw": ins=""; break;
-				case "sw": ins=""; break;
+				case "add": machineCode="000000"+Rtype(split[1])+"00000100000"; break;
+				case "sub": machineCode="000000"+Rtype(split[1])+"00000100010"; break;
+				case "slt": machineCode="000000"+Rtype(split[1])+"00000101010"; break;
+				case "lw": machineCode=""; break;
+				case "sw": machineCode=""; break;
 				default: break;
 			}
-            return ins;
+            return machineCode;
 		}
 		
 		private string Rtype(string _regs)

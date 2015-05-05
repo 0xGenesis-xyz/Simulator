@@ -17,17 +17,17 @@ namespace Simulator
 
         public string converting(string IR)
         {
-            string ins="";
+            string assemblyCode="";
             switch (IR.Substring(0, 6))
             {
-                case "000000": ins = Rtype(IR); break;
-                case "100011": ins = "lw " + Offsettype(IR); break;
-                case "101011": ins = "sw " + Offsettype(IR); break;
-                case "000010": ins = "j " + Jtype(IR); break;
-                case "000011": ins = "jal " + Jtype(IR); break;
+                case "000000": assemblyCode = Rtype(IR); break;
+                case "100011": assemblyCode = "lw " + Offsettype(IR); break;
+                case "101011": assemblyCode = "sw " + Offsettype(IR); break;
+                case "000010": assemblyCode = "j " + Jtype(IR); break;
+                case "000011": assemblyCode = "jal " + Jtype(IR); break;
                 default: break;
             }
-            return ins;
+            return assemblyCode;
         }
 
         private string Rtype(string IR)
