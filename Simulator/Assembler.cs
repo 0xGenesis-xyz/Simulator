@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Simulator
 {
     class Assembler
     {
-        Dictionary<string, string> reg;
+        Dictionary<string, string> reg=new Dictionary<string,string>();
 
         public Assembler()
         {
@@ -24,8 +25,8 @@ namespace Simulator
 				case "add": machineCode="000000"+Rtype(split[1])+"00000100000"; break;
 				case "sub": machineCode="000000"+Rtype(split[1])+"00000100010"; break;
 				case "slt": machineCode="000000"+Rtype(split[1])+"00000101010"; break;
-				case "lw": machineCode=""; break;
-				case "sw": machineCode=""; break;
+                case "lw": machineCode = "100011" + Offsettype(split[1]); break;
+                case "sw": machineCode = "101011" + Offsettype(split[1]); break;
 				default: break;
 			}
             return machineCode;
@@ -34,21 +35,23 @@ namespace Simulator
 		private string Rtype(string _regs)
 		{
 			string[] regs=_regs.Split(',');
-            return reg[regs[2]]+reg[regs[0]]+reg[regs[1]];
+            return reg[regs[0]]+reg[regs[1]]+reg[regs[2]];
 		}
-		
-		private string Offset(string regsAndimm)
+
+        private string Offsettype(string regsAndimm)
         {
             regsAndimm = regsAndimm.Replace('(', ',');
             regsAndimm = regsAndimm.TrimEnd(')');
             string[] regs = regsAndimm.Split(',');
-            return reg[regs[2]]+reg[regs[0]]+getBinary(Convert.ToInt32(regs[1]));
+            return reg[regs[0]]+reg[regs[2]]+getBinary(Convert.ToInt16(regs[1]));
         }
 
-        private string getBinary(int imm)
+        private string getBinary(short imm)
         {
+            char sign = (imm < 0) ? '1' : '0';
             string bin = Convert.ToString(imm, 2);
-            return bin.PadLeft(16, bin[0]);
+            Debug.WriteLine(string.Format("bin: {0}", bin));
+            return bin.PadLeft(16, sign);
         }
 
         private void initReg()

@@ -8,7 +8,7 @@ namespace Simulator
 {
     public class Disassembler
     {
-        Dictionary<string, string> reg;
+        Dictionary<string, string> reg=new Dictionary<string,string>();
 
         public Disassembler()
         {

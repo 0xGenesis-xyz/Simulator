@@ -1,1 +1,10 @@
 E:\Sylvanus\studio\C#\Simulator\Simulator\bin\Debug\Simulator.exe.config
+E:\Sylvanus\studio\Simulator\Simulator\bin\Debug\Simulator.exe.config
+E:\Sylvanus\studio\Simulator\Simulator\bin\Debug\Simulator.exe
+E:\Sylvanus\studio\Simulator\Simulator\bin\Debug\Simulator.pdb
+E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.csprojResolveAssemblyReference.cache
+E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.Form1.resources
+E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.Properties.Resources.resources
+E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.csproj.GenerateResource.Cache
+E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.exe
+E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.pdb
