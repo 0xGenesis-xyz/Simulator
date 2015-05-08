@@ -9,14 +9,30 @@ namespace Simulator
 {
     class Assembler
     {
+        Scanner scanner;
         Dictionary<string, string> reg=new Dictionary<string,string>();
 
         public Assembler()
         {
             initReg();
         }
+        
+        public string converting(string assemblyCodes)
+        {
+            string machineCodes="";
+            scanner.scanning(assemblyCodes);
+            
+            //
+            string[] instructions=assemblyCodes.Split(new string[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string instruction in instructions)
+            {
+                machineCodes+=convertingIR(instruction);
+                machineCodes+=Environment.NewLine;
+            }
+            return machineCodes;
+        }
 
-        public string converting(string IR)
+        public string convertingIR(string IR)
 		{
 			string machineCode="";
 			string[] split=IR.Split(' ');

@@ -14,8 +14,20 @@ namespace Simulator
         {
             initReg();
         }
+        
+        public string converting(string machineCodes)
+        {
+            string assemblyCodes="";
+            string[] instructions=machineCodes.Split(new string[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string instruction in instructions)
+            {
+                assemblyCodes+=convertingIR(instruction);
+                assemblyCodes+=Environment.NewLine;
+            }
+            return assemblyCodes;
+        }
 
-        public string converting(string IR)
+        public string convertingIR(string IR)
         {
             string assemblyCode="";
             switch (IR.Substring(0, 6))
