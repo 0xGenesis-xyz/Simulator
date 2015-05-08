@@ -37,7 +37,7 @@ namespace Simulator
 
 		public Debugger(string assemblyCodes)
 		{
-			PC=1;
+			PC=0;
 			scanner.scanning(assemblyCodes);
 		}
 		

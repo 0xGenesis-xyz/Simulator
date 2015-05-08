@@ -15,6 +15,8 @@ namespace Simulator
         static TextBox[] textBoxRegs=new TextBox[32];
         static TextBox textBoxMem=new TextBox();
         static int[] memory=new int[128];
+        int oldPC;
+        string[] recovery;
         Debugger debugger;
         
         public Form1()
@@ -50,17 +52,27 @@ namespace Simulator
         private void stepIntoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int PC=debugger.stepinto();
+            textBoxAssemblyCode.Lines[oldPC]=new String(recovery[oldPC].ToCharArray());
+            string index=textBoxAssemblyCode.Lines[PC].PadRight(37)+"<--";
+            textBoxAssemblyCode.Lines[PC]=new String(index.ToCharArray());
+            oldPC=PC;
         }
         
         private void startDebuggingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             debugger=new Debugger(textBoxAssemblyCode.Text);
-            //set TextBoxAssemblyCode readonly
+            recovery=textBoxAssemblyCode.Text.Split(new string[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+            textBoxAssemblyCode.ReadOnly=true;
+            string index=textBoxAssemblyCode.Lines[0].PadRight(37)+"<--";
+            textBoxAssemblyCode.Lines[0]=new String(index.ToCharArray());
+            oldPC=0;
         }
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //recover the TextBoxAssemblyCode
+            for (int i=0;i<recovery.Count();i++)
+                textBoxAssemblyCode.Lines[i]=new String(recovery[i].ToCharArray());
+            textBoxAssemblyCode.ReadOnly=false;
         }
 
         public static int fetchReg(int reg)
@@ -83,7 +95,8 @@ namespace Simulator
             memory[addr]=value;
 
             String memAddr = "0x" + (addr * 4).ToString("X4");
-            textBoxMem.Text="  "+Convert.ToString(value, 2);
+            String newline=memAddr+"  "+Convert.ToString(value, 2).PadLeft(32, '0')+Environment.NewLine;
+            textBoxMem.Lines[addr]=new String(newline.ToCharArray());
         }
     }
 }
