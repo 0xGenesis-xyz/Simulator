@@ -162,6 +162,7 @@
             // 
             // stepIntoToolStripMenuItem
             // 
+            this.stepIntoToolStripMenuItem.Enabled = false;
             this.stepIntoToolStripMenuItem.Name = "stepIntoToolStripMenuItem";
             this.stepIntoToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
             this.stepIntoToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
@@ -170,6 +171,7 @@
             // 
             // stopToolStripMenuItem
             // 
+            this.stopToolStripMenuItem.Enabled = false;
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
             this.stopToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
             this.stopToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
@@ -188,16 +190,16 @@
             this.textBoxAssemblyCode.Multiline = true;
             this.textBoxAssemblyCode.Name = "textBoxAssemblyCode";
             this.textBoxAssemblyCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxAssemblyCode.Size = new System.Drawing.Size(300, 400);
+            this.textBoxAssemblyCode.Size = new System.Drawing.Size(280, 400);
             this.textBoxAssemblyCode.TabIndex = 1;
             // 
             // textBoxMachineCode
             // 
-            this.textBoxMachineCode.Location = new System.Drawing.Point(349, 51);
+            this.textBoxMachineCode.Location = new System.Drawing.Point(328, 51);
             this.textBoxMachineCode.Multiline = true;
             this.textBoxMachineCode.Name = "textBoxMachineCode";
             this.textBoxMachineCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxMachineCode.Size = new System.Drawing.Size(300, 400);
+            this.textBoxMachineCode.Size = new System.Drawing.Size(280, 400);
             this.textBoxMachineCode.TabIndex = 2;
             // 
             // textBoxR03
@@ -277,7 +279,7 @@
             // labelMachineCode
             // 
             this.labelMachineCode.AutoSize = true;
-            this.labelMachineCode.Location = new System.Drawing.Point(458, 34);
+            this.labelMachineCode.Location = new System.Drawing.Point(426, 34);
             this.labelMachineCode.Name = "labelMachineCode";
             this.labelMachineCode.Size = new System.Drawing.Size(77, 12);
             this.labelMachineCode.TabIndex = 14;
@@ -486,18 +488,18 @@
             // 
             // textBoxMemory
             // 
-            this.textBoxMemory.Location = new System.Drawing.Point(678, 51);
+            this.textBoxMemory.Location = new System.Drawing.Point(632, 51);
             this.textBoxMemory.Multiline = true;
             this.textBoxMemory.Name = "textBoxMemory";
             this.textBoxMemory.ReadOnly = true;
             this.textBoxMemory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxMemory.Size = new System.Drawing.Size(254, 400);
+            this.textBoxMemory.Size = new System.Drawing.Size(300, 400);
             this.textBoxMemory.TabIndex = 44;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(787, 34);
+            this.label1.Location = new System.Drawing.Point(763, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 12);
             this.label1.TabIndex = 45;

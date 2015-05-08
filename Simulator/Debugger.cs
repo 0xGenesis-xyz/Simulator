@@ -29,15 +29,16 @@ namespace Simulator
 					ADD();
 					PC++;
 					break;
-				default: break;
+                default: break;
 			}
-			
+//            PC++;
 			return PC;
 		}
 
 		public Debugger(string assemblyCodes)
 		{
 			PC=0;
+            scanner = new Scanner();
 			scanner.scanning(assemblyCodes);
 		}
 		

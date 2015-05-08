@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Simulator
 {
@@ -16,6 +17,8 @@ namespace Simulator
         static TextBox textBoxMem=new TextBox();
         static int[] memory=new int[128];
         int oldPC;
+        int totalNum;
+        string[] lines;
         string[] recovery;
         Debugger debugger;
         
@@ -33,7 +36,7 @@ namespace Simulator
             for (int i=0;i<128;i++)
             {
                 memory[i]=0;
-                updateMem(i, 0);
+                textBoxMem.Text += "0x" + (i * 4).ToString("X4") + "  " + Convert.ToString(0).PadLeft(32, '0') + Environment.NewLine;
             }
         }
 
@@ -52,27 +55,46 @@ namespace Simulator
         private void stepIntoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int PC=debugger.stepinto();
-            textBoxAssemblyCode.Lines[oldPC]=new String(recovery[oldPC].ToCharArray());
-            string index=textBoxAssemblyCode.Lines[PC].PadRight(37)+"<--";
-            textBoxAssemblyCode.Lines[PC]=new String(index.ToCharArray());
-            oldPC=PC;
+            if (PC>totalNum-1)
+                stopToolStripMenuItem_Click(null, null);
+            else
+            {
+                Debug.WriteLine(string.Format("step into: {0}", PC));
+                recovery.CopyTo(lines, 0);
+                string index = textBoxAssemblyCode.Lines[PC].PadRight(37) + "<--";
+                lines[PC] = index;
+                textBoxAssemblyCode.Lines = lines;
+                oldPC = PC;
+            }
         }
         
         private void startDebuggingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine("Start debugging...");
+            startDebuggingToolStripMenuItem.Enabled = false;
+            stepIntoToolStripMenuItem.Enabled = true;
+            stopToolStripMenuItem.Enabled = true;
             debugger=new Debugger(textBoxAssemblyCode.Text);
-            recovery=textBoxAssemblyCode.Text.Split(new string[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+            recovery=textBoxAssemblyCode.Lines;
+            lines = textBoxAssemblyCode.Lines;
+            totalNum = textBoxAssemblyCode.Text.Split(new String[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Length;
             textBoxAssemblyCode.ReadOnly=true;
             string index=textBoxAssemblyCode.Lines[0].PadRight(37)+"<--";
-            textBoxAssemblyCode.Lines[0]=new String(index.ToCharArray());
+            Debug.WriteLine(string.Format("index0: xxxx{0}xxxx", index));
+            lines[0] = index;
+            textBoxAssemblyCode.Lines = lines;
+            //textBoxAssemblyCode.Lines[0]=new String(index.ToCharArray());
+            Debug.WriteLine(string.Format("index0: xxxx{0}xxxx", textBoxAssemblyCode.Lines[0]));
             oldPC=0;
         }
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int i=0;i<recovery.Count();i++)
-                textBoxAssemblyCode.Lines[i]=new String(recovery[i].ToCharArray());
+            textBoxAssemblyCode.Lines=recovery;
             textBoxAssemblyCode.ReadOnly=false;
+            startDebuggingToolStripMenuItem.Enabled = true;
+            stepIntoToolStripMenuItem.Enabled = false;
+            stopToolStripMenuItem.Enabled = false;
         }
 
         public static int fetchReg(int reg)
