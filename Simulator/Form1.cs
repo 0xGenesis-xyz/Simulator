@@ -13,6 +13,7 @@ namespace Simulator
     public partial class Form1 : Form
     {
         static TextBox[] textBoxRegs=new TextBox[32];
+        static TextBox textBoxMem=new TextBox();
         static int[] memory=new int[128];
         Debugger debugger;
         
@@ -21,10 +22,17 @@ namespace Simulator
             InitializeComponent();
             
             foreach (Control textbox in this.Controls)
+            {
                 if (textbox.Name.IndexOf("textBoxR")!=-1)
                     textBoxRegs[Convert.ToInt16(textbox.Name.Substring(8))]=(TextBox)textbox;
+                if (textbox.Name=="textBoxMemory")
+                    textBoxMem=(TextBox)textbox;
+            }
             for (int i=0;i<128;i++)
+            {
                 memory[i]=0;
+                updateMem(i, 0);
+            }
         }
 
         private void assemblingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -44,6 +52,17 @@ namespace Simulator
             int PC=debugger.stepinto();
         }
         
+        private void startDebuggingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            debugger=new Debugger(textBoxAssemblyCode.Text);
+            //set TextBoxAssemblyCode readonly
+        }
+
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //recover the TextBoxAssemblyCode
+        }
+
         public static int fetchReg(int reg)
         {
             return Convert.ToInt32(textBoxRegs[reg].Text);
@@ -62,7 +81,9 @@ namespace Simulator
         public static void updateMem(int addr, int value)
         {
             memory[addr]=value;
-            textBoxMemory.Text="0x"+addr.ToString("X4")+"  "+Convert.ToString(value, 2);
+
+            String memAddr = "0x" + (addr * 4).ToString("X4");
+            textBoxMem.Text="  "+Convert.ToString(value, 2);
         }
     }
 }

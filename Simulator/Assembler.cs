@@ -15,6 +15,7 @@ namespace Simulator
         public Assembler()
         {
             initReg();
+            scanner = new Scanner();
         }
         
         public string converting(string assemblyCodes)

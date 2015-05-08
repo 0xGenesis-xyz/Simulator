@@ -38,6 +38,7 @@
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startDebuggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepIntoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hELPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBoxAssemblyCode = new System.Windows.Forms.TextBox();
             this.textBoxMachineCode = new System.Windows.Forms.TextBox();
@@ -76,7 +77,7 @@
             this.labelR15 = new System.Windows.Forms.Label();
             this.textBoxR15 = new System.Windows.Forms.TextBox();
             this.groupBoxRegs = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxMemory = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -137,7 +138,8 @@
             this.dEBUGToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runToolStripMenuItem,
             this.startDebuggingToolStripMenuItem,
-            this.stepIntoToolStripMenuItem});
+            this.stepIntoToolStripMenuItem,
+            this.stopToolStripMenuItem});
             this.dEBUGToolStripMenuItem.Name = "dEBUGToolStripMenuItem";
             this.dEBUGToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
             this.dEBUGToolStripMenuItem.Size = new System.Drawing.Size(62, 21);
@@ -156,6 +158,7 @@
             this.startDebuggingToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9;
             this.startDebuggingToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.startDebuggingToolStripMenuItem.Text = "Start Debugging";
+            this.startDebuggingToolStripMenuItem.Click += new System.EventHandler(this.startDebuggingToolStripMenuItem_Click);
             // 
             // stepIntoToolStripMenuItem
             // 
@@ -164,6 +167,14 @@
             this.stepIntoToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.stepIntoToolStripMenuItem.Text = "Step Into";
             this.stepIntoToolStripMenuItem.Click += new System.EventHandler(this.stepIntoToolStripMenuItem_Click);
+            // 
+            // stopToolStripMenuItem
+            // 
+            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8;
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
             // 
             // hELPToolStripMenuItem
             // 
@@ -252,6 +263,7 @@
             this.textBoxR00.Name = "textBoxR00";
             this.textBoxR00.Size = new System.Drawing.Size(109, 21);
             this.textBoxR00.TabIndex = 11;
+            this.textBoxR00.Text = "123456";
             // 
             // labelAssemblyCode
             // 
@@ -472,15 +484,15 @@
             this.groupBoxRegs.TabStop = false;
             this.groupBoxRegs.Text = "Register File";
             // 
-            // textBox1
+            // textBoxMemory
             // 
-            this.textBox1.Location = new System.Drawing.Point(678, 51);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(254, 400);
-            this.textBox1.TabIndex = 44;
+            this.textBoxMemory.Location = new System.Drawing.Point(678, 51);
+            this.textBoxMemory.Multiline = true;
+            this.textBoxMemory.Name = "textBoxMemory";
+            this.textBoxMemory.ReadOnly = true;
+            this.textBoxMemory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxMemory.Size = new System.Drawing.Size(254, 400);
+            this.textBoxMemory.TabIndex = 44;
             // 
             // label1
             // 
@@ -497,7 +509,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 601);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxMemory);
             this.Controls.Add(this.labelR12);
             this.Controls.Add(this.textBoxR12);
             this.Controls.Add(this.labelR13);
@@ -538,7 +550,7 @@
             this.Controls.Add(this.groupBoxRegs);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Simulator";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -596,8 +608,9 @@
         private System.Windows.Forms.ToolStripMenuItem stepIntoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startDebuggingToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBoxRegs;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxMemory;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
     }
 }
 
