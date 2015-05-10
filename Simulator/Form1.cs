@@ -28,11 +28,16 @@ namespace Simulator
             
             foreach (Control textbox in this.Controls)
             {
-                if (textbox.Name.IndexOf("textBoxR")!=-1)
-                    textBoxRegs[Convert.ToInt16(textbox.Name.Substring(8))]=(TextBox)textbox;
+//                Debug.WriteLine(string.Format("controls: {0}", textbox.Name));
+                if (textbox.Name.IndexOf("textBoxR") != -1)
+                {
+                    textBoxRegs[Convert.ToInt16(textbox.Name.Substring(8,2))] = (TextBox)textbox;
+                    Debug.WriteLine(string.Format("textBoxRegs {0}: {1}", textbox.Name, textBoxRegs[Convert.ToInt16(textbox.Name.Substring(8))].Text));
+                }
                 if (textbox.Name=="textBoxMemory")
                     textBoxMem=(TextBox)textbox;
             }
+            Debug.WriteLine(string.Format("controls end"));
             for (int i=0;i<128;i++)
             {
                 memory[i]=0;

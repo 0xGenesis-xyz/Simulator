@@ -128,12 +128,13 @@ namespace Simulator
 				if(i==Code.Length) return ans;
 				string s="";
 				while((i<Code.Length)&&(validChar(Code[i])==1)) s=s+Code[i++];
-				if(validChar(Code[i])==3)
+				if((i<Code.Length)&&(validChar(Code[i])==3))
 				{
 					label[s]=loc;
 					i++;
 				} else ans.Add(s);
-				if(validChar(s[i])==2) throw new Exception("Compile Error!Invalid Code.");
+                if (i == Code.Length) break;
+				if(validChar(Code[i])==2) throw new Exception("Compile Error!Invalid Code.");
 			}
 			return ans;
 		}
@@ -160,7 +161,7 @@ namespace Simulator
 				case "sll":
 				case "srl":
 				case "slti":
-				case "sltiu":ans.rs=reg[lis[1]];ans.rt=reg[lis[2]];ans.imme=(short)stoi(lis[3]);break;
+				case "sltiu":ans.rt=reg[lis[1]];ans.rs=reg[lis[2]];ans.imme=(short)stoi(lis[3]);break;
 				case "beq":
 				case "bne":ans.rs=reg[lis[1]];ans.rt=reg[lis[2]];ans.imme=(short)label[lis[3]];break;
 				case "jal":
