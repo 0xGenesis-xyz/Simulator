@@ -8,3 +8,12 @@ E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.Properties.Resources.
 E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.csproj.GenerateResource.Cache
 E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.exe
 E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.pdb
+Z:\Users\drinkingcoder\Documents\university\Computer Component&Design\HW\Simulator\Simulator\bin\Debug\Simulator.exe.config
+Z:\Users\drinkingcoder\Documents\university\Computer Component&Design\HW\Simulator\Simulator\obj\Debug\Simulator.exe
+Z:\Users\drinkingcoder\Documents\university\Computer Component&Design\HW\Simulator\Simulator\obj\Debug\Simulator.pdb
+Z:\Users\drinkingcoder\Documents\university\Computer Component&Design\HW\Simulator\Simulator\bin\Debug\Simulator.exe
+Z:\Users\drinkingcoder\Documents\university\Computer Component&Design\HW\Simulator\Simulator\bin\Debug\Simulator.pdb
+Z:\Users\drinkingcoder\Documents\university\Computer Component&Design\HW\Simulator\Simulator\obj\Debug\Simulator.csprojResolveAssemblyReference.cache
+Z:\Users\drinkingcoder\Documents\university\Computer Component&Design\HW\Simulator\Simulator\obj\Debug\Simulator.Form1.resources
+Z:\Users\drinkingcoder\Documents\university\Computer Component&Design\HW\Simulator\Simulator\obj\Debug\Simulator.Properties.Resources.resources
+Z:\Users\drinkingcoder\Documents\university\Computer Component&Design\HW\Simulator\Simulator\obj\Debug\Simulator.csproj.GenerateResource.Cache
