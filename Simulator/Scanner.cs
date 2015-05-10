@@ -20,7 +20,7 @@ namespace Simulator
 	{
 		public IS[] IR;
 		private string[] instructions;
-		Dictionary<string, byte> reg;		//const
+        Dictionary<string, byte> reg = new Dictionary<string, byte>();		//const
 		Dictionary<string, int> label;
 		
 		List<string>[] SplitCode;
@@ -169,6 +169,7 @@ namespace Simulator
 			}
 			return ans;
 		}
+
 		public void scanning(string assemblyCodes)
 		{
 			instructions=assemblyCodes.ToLower().Split(new string[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
