@@ -183,6 +183,7 @@
             this.runToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7;
             this.runToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.runToolStripMenuItem.Text = "Run";
+            this.runToolStripMenuItem.Click += new System.EventHandler(this.runToolStripMenuItem_Click);
             // 
             // startDebuggingToolStripMenuItem
             // 

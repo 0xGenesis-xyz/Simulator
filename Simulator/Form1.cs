@@ -57,6 +57,13 @@ namespace Simulator
             textBoxAssemblyCode.Text=disassembler.converting(textBoxMachineCode.Text);
         }
 
+        private void runToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            totalNum = textBoxAssemblyCode.Text.Split(new String[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Length;
+            debugger = new Debugger(textBoxAssemblyCode.Text);
+            while (debugger.stepinto() < totalNum) ;
+        }
+
         private void stepIntoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int PC=debugger.stepinto();
@@ -79,11 +86,13 @@ namespace Simulator
             startDebuggingToolStripMenuItem.Enabled = false;
             stepIntoToolStripMenuItem.Enabled = true;
             stopToolStripMenuItem.Enabled = true;
+
             debugger=new Debugger(textBoxAssemblyCode.Text);
             recovery=textBoxAssemblyCode.Lines;
             lines = textBoxAssemblyCode.Lines;
             totalNum = textBoxAssemblyCode.Text.Split(new String[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Length;
             textBoxAssemblyCode.ReadOnly=true;
+
             string index=textBoxAssemblyCode.Lines[0].PadRight(37)+"<--";
             Debug.WriteLine(string.Format("index0: xxxx{0}xxxx", index));
             lines[0] = index;
