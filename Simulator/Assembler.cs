@@ -12,55 +12,83 @@ namespace Simulator
         Scanner scanner;
         Dictionary<string, string> reg=new Dictionary<string,string>();
 
+        private Dictionary<string, byte> opFunc = new Dictionary<string, byte>();
+
+        public Test
         public Assembler()
         {
-            initReg();
+            //initReg();
+            initOpFunc();
             scanner = new Scanner();
         }
-        
+
         public string converting(string assemblyCodes)
         {
-            string machineCodes="";
+            List<string> machineCodes = new List<string>;
             scanner.scanning(assemblyCodes);
-            
-            //
-            string[] instructions=assemblyCodes.Split(new string[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string instruction in instructions)
+
+            foreach (IS ins in scanner.IR)
             {
-                machineCodes+=convertingIR(instruction);
-                machineCodes+=Environment.NewLine;
+                machineCodes.Add(convertingIR(ins));
             }
-            return machineCodes;
+            return string.join(Environment.NewLine, machineCodes.ToArray());
         }
 
-        public string convertingIR(string IR)
-		{
-			string machineCode="";
-			string[] split=IR.Split(' ');
-			switch (split[0])
-			{
-				case "add": machineCode="000000"+Rtype(split[1])+"00000100000"; break;
-				case "sub": machineCode="000000"+Rtype(split[1])+"00000100010"; break;
-				case "slt": machineCode="000000"+Rtype(split[1])+"00000101010"; break;
-                case "lw": machineCode = "100011" + Offsettype(split[1]); break;
-                case "sw": machineCode = "101011" + Offsettype(split[1]); break;
-				default: break;
-			}
-            return machineCode;
-		}
-		
-		private string Rtype(string _regs)
-		{
-			string[] regs=_regs.Split(',');
-            return reg[regs[0]]+reg[regs[1]]+reg[regs[2]];
-		}
-
-        private string Offsettype(string regsAndimm)
+        public string convertingIR(IS ins)
         {
-            regsAndimm = regsAndimm.Replace('(', ',');
-            regsAndimm = regsAndimm.TrimEnd(')');
-            string[] regs = regsAndimm.Split(',');
-            return reg[regs[0]]+reg[regs[2]]+getBinary(Convert.ToInt16(regs[1]));
+            switch (ins.op)
+            {
+                case "add":
+                case "sub":
+                case "and":
+                case "or":
+                case "nor":
+                case "slt":
+                case "sltu":
+                    return Rtype(ins); break;
+                case "sll":
+                case "srl":
+                    return Sfttype(ins); break;
+                case "addi":
+                case "andi":
+                case "ori":
+                case "slti":
+                case "sltiu":
+                case "lw":
+                case "sw":
+                    return Itype(ins); break;
+                case "j":
+                case "jal":
+                    return Jtype(ins); break;
+                case "jr":
+                    return "00000" + getReg(ins.rs) + "000000000000000001000"; break;
+            }
+        }
+
+        private string Rtype(IS ins)
+        {
+            // ins format: "INS   rd, rs, rt"
+            // binary format: "OP RS RT RD SFT FUNC"
+            return "000000" + getReg(ins.rs) + getReg(ins.rt) + getReg(ins.rd)
+                + "00000" + getOpFunc(ins.op);
+        }
+
+        private string Itype(IS ins)
+        {
+            // regsAndImm format: "INS   rt, rs, imm"
+            // binary format: "OP RS RT IMM"
+            return getOpFunc(ins.op) + getReg(ins.rs) + getReg(ins.rt) + getBinary(ins.imme);
+        }
+
+        private string Sfttype(IS ins)
+        {
+            return "00000000000" + getReg(ins.rt) + getReg(ins.rd) + getReg(ins.imme)
+                + getOpFunc(ins.op);
+        }
+
+        private string Jtype(IS ins)
+        {
+            return getOpFunc(ins.op) + getAddr(ins.loc);
         }
 
         private string getBinary(short imm)
@@ -71,16 +99,46 @@ namespace Simulator
             return bin.PadLeft(16, sign);
         }
 
-        private void initReg()
+        private string getAddr(int loc)
         {
-            reg.Add("$s0", "10000");
-            reg.Add("$s1", "10001");
-            reg.Add("$s2", "10010");
-            reg.Add("$s3", "10011");
-            reg.Add("$s4", "10100");
-            reg.Add("$s5", "10101");
-            reg.Add("$s6", "10110");
-            reg.Add("$s7", "10111");
+            char sign = (loc < 0) ? '1' : '0';
+            string bin = Convert.ToString(loc, 2);
+            return bin.PadLeft(26, sign);
+        }
+
+        private string getReg(byte reg)
+        {
+            return Convert.ToString(reg, 2).PadLeft(5, '0');
+        }
+
+        private string getOpFunc(string opOrFunc)
+        {
+            return Convert.ToString(opFunc[opOrFunc], 2).PadLeft(6, '0');
+        }
+
+        private void initOpFunc()
+        {
+            opFunc["add"] = 0x20;
+            opFunc["sub"] = 0x22;
+            opFunc["addi"] = 0x08;
+            opFunc["lw"] = 0x23;
+            opFunc["sw"] = 0x2B;
+            opFunc["and"] = 0x24;
+            opFunc["or"] = 0x25;
+            opFunc["nor"] = 0x27;
+            opFunc["andi"] = 0x0C;
+            opFunc["ori"] = 0x0D;
+            opFunc["sll"] = 0x00;
+            opFunc["srl"] = 0x02;
+            opFunc["beq"] = 0x04;
+            opFunc["bne"] = 0x05;
+            opFunc["slt"] = 0x2A;
+            opFunc["sltu"] = 0x2B;
+            opFunc["slti"] = 0x0A;
+            opFunc["sltiu"] = 0x0B;
+            opFunc["j"] = 0x02;
+            opFunc["jr"] = 0x08;
+            opFunc["jal"] = 0x03;
         }
     }
 }
