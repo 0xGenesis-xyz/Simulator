@@ -84,6 +84,22 @@ namespace Simulator
 
         private void initReg()
         {
+            reg.Add("00000", "$zero");
+            reg.Add("00001", "$at");
+            reg.Add("00010", "$v0");
+            reg.Add("00011", "$v1");
+            reg.Add("00100", "$a0");
+            reg.Add("00101", "$a1");
+            reg.Add("00110", "$a2");
+            reg.Add("00111", "$a3");
+            reg.Add("01000", "$t0");
+            reg.Add("01001", "$t1");
+            reg.Add("01010", "$t2");
+            reg.Add("01011", "$t3");
+            reg.Add("01100", "$t4");
+            reg.Add("01101", "$t5");
+            reg.Add("01110", "$t6");
+            reg.Add("01111", "$t7");
             reg.Add("10000", "$s0");
             reg.Add("10001", "$s1");
             reg.Add("10010", "$s2");
@@ -92,6 +108,14 @@ namespace Simulator
             reg.Add("10101", "$s5");
             reg.Add("10110", "$s6");
             reg.Add("10111", "$s7");
+            reg.Add("11000", "$t8");
+            reg.Add("11001", "$t9");
+            reg.Add("11010", "$k0");
+            reg.Add("11011", "$k1");
+            reg.Add("11100", "$gp");
+            reg.Add("11101", "$sp");
+            reg.Add("11110", "$fp");
+            reg.Add("11111", "$ra");
         }
     }
 }
