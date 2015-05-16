@@ -10,11 +10,8 @@ namespace Simulator
     class Assembler
     {
         Scanner scanner;
-        Dictionary<string, string> reg=new Dictionary<string,string>();
-
         private Dictionary<string, byte> opFunc = new Dictionary<string, byte>();
 
-        public Test
         public Assembler()
         {
             //initReg();
@@ -24,14 +21,14 @@ namespace Simulator
 
         public string converting(string assemblyCodes)
         {
-            List<string> machineCodes = new List<string>;
+            List<string> machineCodes = new List<string>();
             scanner.scanning(assemblyCodes);
 
             foreach (IS ins in scanner.IR)
             {
                 machineCodes.Add(convertingIR(ins));
             }
-            return string.join(Environment.NewLine, machineCodes.ToArray());
+            return string.Join(Environment.NewLine, machineCodes.ToArray());
         }
 
         public string convertingIR(IS ins)
@@ -45,10 +42,10 @@ namespace Simulator
                 case "nor":
                 case "slt":
                 case "sltu":
-                    return Rtype(ins); break;
+                    return Rtype(ins);
                 case "sll":
                 case "srl":
-                    return Sfttype(ins); break;
+                    return Sfttype(ins);
                 case "addi":
                 case "andi":
                 case "ori":
@@ -56,12 +53,14 @@ namespace Simulator
                 case "sltiu":
                 case "lw":
                 case "sw":
-                    return Itype(ins); break;
+                    return Itype(ins);
                 case "j":
                 case "jal":
-                    return Jtype(ins); break;
+                    return Jtype(ins);
                 case "jr":
-                    return "00000" + getReg(ins.rs) + "000000000000000001000"; break;
+                    return "000000" + getReg(ins.rs) + "000000000000000001000";
+                default:
+                    return "";
             }
         }
 
@@ -82,7 +81,7 @@ namespace Simulator
 
         private string Sfttype(IS ins)
         {
-            return "00000000000" + getReg(ins.rt) + getReg(ins.rd) + getReg(ins.imme)
+            return "00000000000" + getReg(ins.rt) + getReg(ins.rd) + getReg((byte)ins.imme)
                 + getOpFunc(ins.op);
         }
 
@@ -139,6 +138,16 @@ namespace Simulator
             opFunc["j"] = 0x02;
             opFunc["jr"] = 0x08;
             opFunc["jal"] = 0x03;
+        }
+    }
+
+    public class AssemblerTest
+    {
+        public static void test()
+        {
+            string example = "srl $s0,$t0,4\nlw $s1, 123($s2)\nsw $s1, -1($s2)";
+            Assembler asm = new Assembler();
+            System.Console.WriteLine(asm.converting(example));
         }
     }
 }

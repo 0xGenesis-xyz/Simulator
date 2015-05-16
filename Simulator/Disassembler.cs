@@ -8,61 +8,93 @@ namespace Simulator
 {
     public class Disassembler
     {
-        Dictionary<string, string> reg=new Dictionary<string,string>();
+        private Dictionary<string, string> reg=new Dictionary<string,string>();
+        private Dictionary<string, string> opFunc = new Dictionary<string, string>();
 
         public Disassembler()
         {
             initReg();
+            initOpFunc();
         }
-        
+
         public string converting(string machineCodes)
         {
-            string assemblyCodes="";
+            List<string> assemblyCodes = new List<string>();
             string[] instructions=machineCodes.Split(new string[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string instruction in instructions)
             {
-                assemblyCodes+=convertingIR(instruction);
-                assemblyCodes+=Environment.NewLine;
+                assemblyCodes.Add(convertingIR(instruction));
+                //assemblyCodes+=Environment.NewLine;
             }
-            return assemblyCodes;
+            return string.Join(Environment.NewLine, assemblyCodes.ToArray());
         }
 
         public string convertingIR(string IR)
         {
-            string assemblyCode="";
-            switch (IR.Substring(0, 6))
+            switch (opFunc[IR.Substring(0, 6)])
             {
-                case "000000": assemblyCode = Rtype(IR); break;
-                case "100011": assemblyCode = "lw " + Offsettype(IR); break;
-                case "101011": assemblyCode = "sw " + Offsettype(IR); break;
-                case "000010": assemblyCode = "j " + Jtype(IR); break;
-                case "000011": assemblyCode = "jal " + Jtype(IR); break;
-                default: break;
+                case "sll":    // R
+                    return Rtype(IR);
+                case "addi":
+                case "andi":
+                case "ori":
+                case "beq":
+                case "bne":
+                case "slti":
+                case "sltiu":
+                    return Itype(IR);
+                case "lw":
+                case "sw":
+                    return LStype(IR);
+                case "j":
+                case "jal":
+                    return Jtype(IR);
+                default:
+                    return "";
             }
-            return assemblyCode;
         }
 
         private string Rtype(string IR)
         {
-            string op="";
-            switch (IR.Substring(26, 6))
+            string op = opFunc[IR.Substring(26, 6)];
+            switch (op)
             {
-                case "100000": op = "add"; break;
-                case "100010": op = "sub"; break;
-                case "101010": op = "slt"; break;
-                default: break;
+                case "j":    // srl
+                    op = "srl";
+                    goto case "sll";
+                case "sll":
+                    return op + " " + reg[IR.Substring(16, 5)] + ","
+                        + reg[IR.Substring(11, 5)] + ","
+                        + Convert.ToString(Convert.ToInt32(IR.Substring(21, 5), 2));
+                case "addi":    // jr
+                    return "jr " + reg[IR.Substring(6, 5)];
+                case "sw":    // sltu
+                    op = "sltu";
+                    goto default;
+                default:
+                    return op + " " + reg[IR.Substring(16, 5)] + "," + reg[IR.Substring(6, 5)] + ","
+                        + reg[IR.Substring(11, 5)];
             }
-            return op + " " + reg[IR.Substring(6, 5)] + "," + reg[IR.Substring(11, 5)] + "," + reg[IR.Substring(16, 5)];
         }
 
-        private string Offsettype(string IR)
+        private string Itype(string IR)
         {
-            return reg[IR.Substring(6, 5)] + "," + Convert.ToString(getImm(IR.Substring(16, 16))) + "(" + reg[IR.Substring(11, 5)] + ")";
+            string op = opFunc[IR.Substring(0, 6)];
+            return op + " " + reg[IR.Substring(11, 5)] + "," + reg[IR.Substring(6, 5)]
+                + Convert.ToString(getImm(IR.Substring(16, 16)));
+        }
+
+        private string LStype(string IR)
+        {
+            string op = opFunc[IR.Substring(0, 6)];
+            return op + " " + reg[IR.Substring(6, 5)] + ","
+                + Convert.ToString(getImm(IR.Substring(16, 16)))
+                + "(" + reg[IR.Substring(11, 5)] + ")";
         }
 
         private string Jtype(string IR)
         {
-            return Convert.ToString(getImm(IR.Substring(6, 26)));
+            return opFunc[IR.Substring(0, 6)] + " " + Convert.ToString(getImm(IR.Substring(6, 26)));
         }
 
         private int getImm(string imm)
@@ -80,6 +112,32 @@ namespace Simulator
             if (imm[0] == '1')
                 num -= mul;
             return num;
+        }
+
+        private void initOpFunc()
+        {
+            opFunc["100000"] = "add";
+            opFunc["100010"] = "sub";
+            opFunc["100011"] = "lw";
+            opFunc["100100"] = "and";
+            opFunc["100101"] = "or";
+            opFunc["100111"] = "nor";
+            opFunc["001100"] = "andi";
+            opFunc["001101"] = "ori";
+            //opFunc["000000"] = "R";
+            opFunc["000000"] = "sll";    // can be either opcode of R or func of sll
+            opFunc["000100"] = "beq";
+            opFunc["000101"] = "bne";
+            opFunc["101010"] = "slt";
+            //opFunc["101011"] = "sltu";
+            opFunc["101011"] = "sw";    // can be either opcode of sw or func of sltu
+            opFunc["001010"] = "slti";
+            opFunc["001011"] = "sltiu";
+            //opFunc["000010"] = "srl";
+            opFunc["000010"] = "j";    // can be either opcode of j or func of srl
+            //opFunc["001000"] = "jr";
+            opFunc["001000"] = "addi";    // can be either opcode of jr or func of addi
+            opFunc["000011"] = "jal";
         }
 
         private void initReg()
@@ -116,6 +174,16 @@ namespace Simulator
             reg.Add("11101", "$sp");
             reg.Add("11110", "$fp");
             reg.Add("11111", "$ra");
+        }
+    }
+
+    public class DisassemblerTest
+    {
+        public static void test()
+        {
+            Disassembler dasm = new Disassembler();
+            string example = "00000000000100000000000100000010\n10001110010100010000000001111011\n10101110010100011111111111111111";
+            System.Console.WriteLine(dasm.converting(example));
         }
     }
 }
