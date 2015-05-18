@@ -59,13 +59,18 @@ namespace Simulator
 
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            totalNum = richTextBoxAssemblyCode.Text.Split(new String[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Length;
+            int count=0;
+            totalNum = richTextBoxAssemblyCode.Text.Split('\n').Length;
             debugger = new Debugger(richTextBoxAssemblyCode.Text);
-            while (debugger.stepinto() < totalNum) ;
+            Debug.WriteLine(string.Format("start running"));
+            while (debugger.stepinto() < totalNum) 
+                Debug.WriteLine(string.Format("step into: {0}", count++));
+            Debug.WriteLine(string.Format("stop running"));
         }
 
         private void stepIntoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            oldPC = newPC;
             newPC=debugger.stepinto();
             if (newPC > totalNum - 1)
             {
@@ -84,7 +89,7 @@ namespace Simulator
                 richTextBoxAssemblyCode.Select(richTextBoxAssemblyCode.GetFirstCharIndexFromLine(oldPC), richTextBoxAssemblyCode.Lines[oldPC].Length);
                 richTextBoxAssemblyCode.SelectionBackColor = Color.White;
                 richTextBoxAssemblyCode.Select(0, 0);
-                oldPC = newPC;
+//                oldPC = newPC;
             }
         }
         
@@ -114,7 +119,7 @@ namespace Simulator
             richTextBoxAssemblyCode.Select(0, 0);
             //textBoxAssemblyCode.Lines[0]=new String(index.ToCharArray());
             Debug.WriteLine(string.Format("index0: xxxx{0}xxxx", richTextBoxAssemblyCode.Lines[0]));
-            oldPC=0;
+            newPC=0;
         }
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
