@@ -21,7 +21,7 @@ namespace Simulator
 		public IS[] IR;
 		private string[] instructions;
         Dictionary<string, byte> reg = new Dictionary<string, byte>();		//const
-		Dictionary<string, int> label;
+		Dictionary<string, int> label = new Dictionary<string, int>();
 		
 		List<string>[] SplitCode;
 		
@@ -122,7 +122,7 @@ namespace Simulator
 		private List<string>SplitString(int loc,string Code)
 		{
 			List<string> ans=new List<string>();
-			for(int i=0;i<Code.Length;i++)
+			for(int i=0;i<Code.Length;)
 			{
 				while((i<Code.Length)&&(validChar(Code[i])==0)) i++;
 				if(i==Code.Length) return ans;
@@ -158,22 +158,22 @@ namespace Simulator
 				case "addi":
 				case "andi":
 				case "ori":
-				case "sll":
-				case "srl":
 				case "slti":
 				case "sltiu":ans.rt=reg[lis[1]];ans.rs=reg[lis[2]];ans.imme=(short)stoi(lis[3]);break;
+                case "sll":
+                case "srl": ans.rd = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.imme = (short)((stoi(lis[3]) << 6)&0x7ff); break;
 				case "beq":
 				case "bne":ans.rs=reg[lis[1]];ans.rt=reg[lis[2]];ans.imme=(short)label[lis[3]];break;
 				case "jal":
 				case "j":ans.loc=ans.addr=label[lis[1]];break;
-				case "jr":ans.rs=reg[lis[1]];break;
+				case "jr":ans.rs=reg[lis[1]]; break;
 			}
 			return ans;
 		}
 
 		public void scanning(string assemblyCodes)
 		{
-			instructions=assemblyCodes.ToLower().Split(new string[]{Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+			instructions=assemblyCodes.ToLower().Split(new string[]{"\n"}, StringSplitOptions.RemoveEmptyEntries);
 			IR=new IS[instructions.Length];
 			SplitCode=new List<string>[instructions.Length];
 			int k=0;
