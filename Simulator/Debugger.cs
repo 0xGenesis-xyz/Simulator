@@ -147,6 +147,10 @@ namespace Simulator
                     PC++;
                     break;
                 case "blt":
+                    BLT();
+                    PC++;
+                    break;
+                case "bltu":
                     BLTU();
                     PC++;
                     break;
@@ -390,9 +394,9 @@ namespace Simulator
         }
         private void JAL()
         {
-            int addrValue = scanner.IR[PC].addr;
+            int locValue = scanner.IR[PC].loc;
             updateReg(31, PC * 4 + 4);
-            PC = (addrValue / 4) - 1;
+            PC = locValue - 1;
         }
         private void ABS()
         {
@@ -410,7 +414,7 @@ namespace Simulator
         {
             int rsValue = fetchReg(scanner.IR[PC].rs);
             int locValue = scanner.IR[PC].loc;
-            if (rsValue == 0) PC = locValue + 1;
+            if (rsValue == 0) PC = locValue - 1;
         }
         private void BGE()
         {
@@ -424,7 +428,7 @@ namespace Simulator
             uint rtValue = (uint)fetchReg(scanner.IR[PC].rt);
             uint rsValue = (uint)fetchReg(scanner.IR[PC].rs);
             int locValue = scanner.IR[PC].loc;
-            if (rtValue >= rsValue) PC = locValue - 1;
+            if (rsValue >= rtValue) PC = locValue - 1;
         }
         private void BGT()
         {
@@ -438,7 +442,7 @@ namespace Simulator
             uint rtValue = (uint)fetchReg(scanner.IR[PC].rt);
             uint rsValue = (uint)fetchReg(scanner.IR[PC].rs);
             int locValue = scanner.IR[PC].loc;
-            if (rtValue > rsValue) PC = locValue - 1;
+            if (rsValue > rtValue) PC = locValue - 1;
         }
         private void BLE()
         {
@@ -531,13 +535,13 @@ namespace Simulator
         }
         private void ROL()
         {
-            uint rtValue = (uint)fetchReg(scanner.IR[PC].rt);
+            uint rtValue = (uint)fetchReg(scanner.IR[PC].rt) % 32;
             uint rsValue = (uint)fetchReg(scanner.IR[PC].rs);
             uint rdValue = 0;
             for (uint i = 0; i < rtValue; i++)
             {
                 rdValue *= 2;
-                if (rsValue < 0)
+                if ((int)rsValue < 0)
                     rdValue += 1;
                 else
                     rdValue += 0;
@@ -549,7 +553,7 @@ namespace Simulator
         }
         private void ROR()
         {
-            uint rtValue = (uint)fetchReg(scanner.IR[PC].rt);
+            uint rtValue = (uint)fetchReg(scanner.IR[PC].rt) % 32;
             uint rsValue = (uint)fetchReg(scanner.IR[PC].rs);
             uint rdValue = 0;
             for (uint i = 0; i < rtValue; i++)
