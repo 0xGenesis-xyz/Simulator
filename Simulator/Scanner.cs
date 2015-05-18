@@ -181,7 +181,7 @@ namespace Simulator
 				case "not":
 				case "abs":ans.rd=reg[lis[1]];ans.rs=reg[lis[2]];break;
 				case "sll":
-                case "srl": ans.rd = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.imme = (short)((stoi(lis[3]) << 6)&0x7ff); break;
+                case "srl": ans.rd = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.imme = (short)stoi(lis[3]); break;
 				case "beq":
 				case "bge":
 				case "bgeu":
