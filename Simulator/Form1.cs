@@ -18,7 +18,7 @@ namespace Simulator
         static int[] memory=new int[128];
         int newPC, oldPC;
         int totalNum;
-        string[] lines;
+        static string[] lines;
         string[] recovery;
         Debugger debugger;
         
@@ -43,6 +43,7 @@ namespace Simulator
                 memory[i]=0;
                 textBoxMem.Text += "0x" + (i * 4).ToString("X4") + "  " + Convert.ToString(0).PadLeft(32, '0') + Environment.NewLine;
             }
+            lines = textBoxMem.Lines;
         }
 
         private void assemblingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -60,7 +61,7 @@ namespace Simulator
         private void runToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int count=0;
-            totalNum = richTextBoxAssemblyCode.Text.Split('\n').Length;
+            totalNum = richTextBoxAssemblyCode.Text.Split(new char[] {'\n'}, StringSplitOptions.RemoveEmptyEntries).Length;
             debugger = new Debugger(richTextBoxAssemblyCode.Text);
             Debug.WriteLine(string.Format("start running"));
             while (debugger.stepinto() < totalNum) 
@@ -104,10 +105,10 @@ namespace Simulator
             recovery = richTextBoxAssemblyCode.Lines;
 //            lines = richTextBoxAssemblyCode.Lines;
 //            totalNum = richTextBoxAssemblyCode.Text.Split(new String[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).Length;
-            totalNum = richTextBoxAssemblyCode.Text.Split('\n').Length;
+            totalNum = richTextBoxAssemblyCode.Text.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
             richTextBoxAssemblyCode.ReadOnly = true;
             Debug.WriteLine(string.Format("total Num: {0}", totalNum));
-            Debug.WriteLine(string.Format("text: {0}", recovery[3]));
+//            Debug.WriteLine(string.Format("text: {0}", recovery[3]));
 
 //            string index = richTextBoxAssemblyCode.Lines[0].PadRight(37) + "<--";
 //            Debug.WriteLine(string.Format("index0: xxxx{0}xxxx", index));
@@ -240,8 +241,9 @@ namespace Simulator
             memory[addr]=value;
 
             String memAddr = "0x" + (addr * 4).ToString("X4");
-            String newline=memAddr+"  "+Convert.ToString(value, 2).PadLeft(32, '0')+Environment.NewLine;
-            textBoxMem.Lines[addr]=new String(newline.ToCharArray());
+            String newline=memAddr+"  "+Convert.ToString(value, 2).PadLeft(32, '0');
+            lines[addr] = newline;
+            textBoxMem.Lines=lines;
         }
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
