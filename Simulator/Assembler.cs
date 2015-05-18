@@ -27,6 +27,7 @@ namespace Simulator
             foreach (IS ins in scanner.IR)
             {
                 machineCodes.Add(convertingIR(ins));
+                Debug.WriteLine(string.Format("op: {0}", ins.op));
             }
             return string.Join(Environment.NewLine, machineCodes.ToArray());
         }
