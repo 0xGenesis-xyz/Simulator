@@ -107,6 +107,7 @@ namespace Simulator
 		                case '/':flag=4;break;
 		                default:throw new Exception("Compile Error! Wrong expression!");
 		            }
+					tmp=0;
 		        }
 		    }
 		    switch(flag)
