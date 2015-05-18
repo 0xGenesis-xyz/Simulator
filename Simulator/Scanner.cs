@@ -152,6 +152,20 @@ namespace Simulator
 				case "nor":
 				case "slt":
 				case "sltu":
+				case "mulo":
+				case "mulou":
+				case "rem":
+				case "remu":
+				case "rol":
+				case "ror":
+				case "sge":
+				case "sgeu":
+				case "sgt":
+				case "sgtu":
+				case "sle":
+				case "sleu":
+				case "sne":
+				case "seq":
 				case "sub":ans.rd=reg[lis[1]];ans.rs=reg[lis[2]];ans.rt=reg[lis[3]];break;
 				case "lw":
 				case "sw":ans.rt=reg[lis[1]];ans.imme=(short)stoi(lis[2]);ans.rs=reg[lis[3]];break;
@@ -160,14 +174,32 @@ namespace Simulator
 				case "ori":
 				case "slti":
 				case "sltiu":ans.rt=reg[lis[1]];ans.rs=reg[lis[2]];ans.imme=(short)stoi(lis[3]);break;
-                case "sll":
+                case "mode":
+				case "neg":
+				case "negu":
+				case "not":
+				case "abs":ans.rd=reg[lis[1]];ans.rs=reg[lis[2]];break;
+				case "sll":
                 case "srl": ans.rd = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.imme = (short)((stoi(lis[3]) << 6)&0x7ff); break;
 				case "beq":
-				case "bne":ans.rs=reg[lis[1]];ans.rt=reg[lis[2]];ans.imme=(short)label[lis[3]];break;
+				case "bge":
+				case "bgeu":
+				case "bgt":
+				case "bgtu":
+				case "ble":
+				case "bleu":
+				case "blt":
+				case "bltu":
+				case "bne":ans.rs=reg[lis[1]];ans.rt=reg[lis[2]];ans.loc=ans.imme=(short)label[lis[3]];break;
 				case "jal":
-				case "j":ans.loc=ans.addr=label[lis[1]];break;
+				case "b":
+				case "j":ans.loc=label[lis[1]];break;
 				case "jr":ans.rs=reg[lis[1]]; break;
+				case "bnez":
+				case "beqz":ans.rs=reg[lis[1]];ans.loc=label[lis[2]];break;
+				case "nop":break;
 			}
+			ans.addr=ans.loc;
 			return ans;
 		}
 
