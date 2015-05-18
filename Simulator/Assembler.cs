@@ -113,7 +113,7 @@ namespace Simulator
 
         private string Jtype(IS ins)
         {
-            return getOpFunc(ins.op) + getAddr(ins.loc);
+            return getOpFunc(ins.op) + getAddr(ins.addr);
         }
 
         private string getBinary(short imm)
@@ -124,11 +124,10 @@ namespace Simulator
             return bin.PadLeft(16, sign);
         }
 
-        private string getAddr(int loc)
+        private string getAddr(int addr)
         {
-            char sign = (loc < 0) ? '1' : '0';
-            string bin = Convert.ToString(loc, 2);
-            return bin.PadLeft(26, sign);
+            string bin = Convert.ToString(addr, 2).Substring(6, 26);
+            return bin;
         }
 
         private string getReg(byte reg)
@@ -240,7 +239,7 @@ namespace Simulator
     {
         public static void test()
         {
-            string example = "test: bleu $s0,$t0,test\nsleu $a0, $a1, $a2";
+            string example = "test: bleu $s0,$t0,test\naddi $s0,$s1,1000002\nj test";
             Assembler asm = new Assembler();
             System.Console.WriteLine(asm.converting(example));
         }

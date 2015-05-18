@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 namespace Simulator
 {
@@ -211,7 +211,7 @@ namespace Simulator
 				case "ble":
 				case "bleu":
 				case "blt":
-                case "bltu": ans.rs = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.loc = (short)label[lis[3]]; ans.imme = (short)(IR[ans.loc].pos - ans.pos - 1); break;
+                case "bltu": ans.rs = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.loc = (short)label[lis[3]]; ans.imme = (short)(IR[ans.loc].pos - ans.pos - 2); break;
                 case "beq":
                 case "bne": ans.rs = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.loc = (short)label[lis[3]]; ans.imme = (short)(IR[ans.loc].pos - ans.pos - 1); break;
 				case "jal":
