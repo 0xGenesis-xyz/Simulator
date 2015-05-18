@@ -14,6 +14,8 @@ namespace Simulator
 		public short imme;
 		public int addr;							//the number fill in the "address" part of machine code	
 		public int loc;								//next location that PC should go to.
+        public int num;                             //this instruction will be transformed into num machine code
+        public int pos;
 	}
 
 	public class Scanner
@@ -120,9 +122,10 @@ namespace Simulator
 		    return ans;
 		}
 		
-		private List<string>SplitString(int loc,string Code)
+		private List<string>SplitString(int pos,int loc,string Code)
 		{
 			List<string> ans=new List<string>();
+            IR[loc] = new IS();
 			for(int i=0;i<Code.Length;)
 			{
 				while((i<Code.Length)&&(validChar(Code[i])==0)) i++;
@@ -137,14 +140,33 @@ namespace Simulator
                 if (i == Code.Length) break;
 				if(validChar(Code[i])==2) throw new Exception("Compile Error!Invalid Code.");
 			}
+            IR[loc].pos = pos;
+            IR[loc].num = 1;
+            IR[loc].op = ans[0];
+            switch(IR[loc].op)
+            {
+                case "bge":
+                case "bgeu":
+                case "bgt":
+                case "bgtu":
+                case "ble":
+                case "bleu":
+                case "blt":
+                case "bltu": IR[loc].num += 1; break;
+                case "sge":
+                case "sgeu":
+                case "sle":
+                case "sleu":
+                case "sne":
+                case "seq": IR[loc].num += 3; break;
+            }
 			return ans;
 		}
 		
-		private IS Transform(ref List<string> lis,int next)
+		private void Transform(ref List<string> lis,int loc)
 		{
-			IS ans=new IS();
-			ans.op=lis[0];
-			ans.loc=ans.addr=next;
+			IS ans=IR[loc];
+            ans.loc = loc + 1;
 			switch(ans.op)
 			{
 				case "add":
@@ -182,7 +204,6 @@ namespace Simulator
 				case "abs":ans.rd=reg[lis[1]];ans.rs=reg[lis[2]];break;
 				case "sll":
                 case "srl": ans.rd = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.imme = (short)stoi(lis[3]); break;
-				case "beq":
 				case "bge":
 				case "bgeu":
 				case "bgt":
@@ -190,18 +211,18 @@ namespace Simulator
 				case "ble":
 				case "bleu":
 				case "blt":
-				case "bltu":
-				case "bne":ans.rs=reg[lis[1]];ans.rt=reg[lis[2]];ans.loc=ans.imme=(short)label[lis[3]];break;
+                case "bltu": ans.rs = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.loc = (short)label[lis[3]]; ans.imme = (short)(IR[ans.loc].pos - ans.pos - 1); break;
+                case "beq":
+                case "bne": ans.rs = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.loc = (short)label[lis[3]]; ans.imme = (short)(IR[ans.loc].pos - ans.pos - 1); break;
 				case "jal":
 				case "b":
-				case "j":ans.loc=label[lis[1]];break;
+                case "j": ans.loc = label[lis[1]]; ans.addr = IR[ans.loc].pos - ans.pos - 1; break;
 				case "jr":ans.rs=reg[lis[1]]; break;
 				case "bnez":
-				case "beqz":ans.rs=reg[lis[1]];ans.loc=label[lis[2]];break;
+                case "beqz": ans.rs = reg[lis[1]]; ans.loc = label[lis[2]]; ans.addr = IR[ans.loc].pos - ans.pos - 1; break;
 				case "nop":break;
 			}
-			ans.addr=ans.loc;
-			return ans;
+			IR[loc]=ans;
 		}
 
 		public void scanning(string assemblyCodes)
@@ -209,14 +230,15 @@ namespace Simulator
 			instructions=assemblyCodes.ToLower().Split(new string[]{"\n"}, StringSplitOptions.RemoveEmptyEntries);
 			IR=new IS[instructions.Length];
 			SplitCode=new List<string>[instructions.Length];
-			int k=0;
+			int k=0,pos=0;
 			foreach(string s in instructions)
 			{
-				SplitCode[k]=SplitString(k,s);
+				SplitCode[k]=SplitString(pos,k,s);
+                pos += IR[k].num;
 				k++;
 			}
-			for(k=0;k<SplitCode.Length;k++)
-				IR[k]=Transform(ref SplitCode[k],k+1);
+            for (k = 0; k < SplitCode.Length; k++)
+                Transform(ref SplitCode[k], k);
 		}
 
 		public Scanner(string assemblyCodes)
