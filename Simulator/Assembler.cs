@@ -34,6 +34,7 @@ namespace Simulator
 
         public string convertingIR(IS ins)
         {
+            //System.Console.WriteLine(ins.op);
             switch (ins.op)
             {
                 case "add":
@@ -240,7 +241,7 @@ namespace Simulator
     {
         public static void test()
         {
-            string example = "test: bleu $s0,$t0,test\naddi $s0,$s1,1000002\nj test";
+            string example = "test: bleu $s0,$t0,test\nsw $s1, 100($s2)\naddi $s0,$s1,1000\nj test";
             Assembler asm = new Assembler();
             System.Console.WriteLine(asm.converting(example));
         }

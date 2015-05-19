@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
-//using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace Simulator
 {
@@ -129,7 +129,7 @@ namespace Simulator
 			for(int i=0;i<Code.Length;)
 			{
 				while((i<Code.Length)&&(validChar(Code[i])==0)) i++;
-				if(i==Code.Length) return ans;
+				if(i==Code.Length) break;
 				string s="";
 				while((i<Code.Length)&&(validChar(Code[i])==1)) s=s+Code[i++];
 				if((i<Code.Length)&&(validChar(Code[i])==3))
