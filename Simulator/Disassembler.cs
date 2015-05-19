@@ -80,16 +80,16 @@ namespace Simulator
         private string Itype(string IR)
         {
             string op = opFunc[IR.Substring(0, 6)];
-            return op + " " + reg[IR.Substring(11, 5)] + "," + reg[IR.Substring(6, 5)]
+            return op + " " + reg[IR.Substring(11, 5)] + "," + reg[IR.Substring(6, 5)] + ","
                 + Convert.ToString(getImm(IR.Substring(16, 16)));
         }
 
         private string LStype(string IR)
         {
             string op = opFunc[IR.Substring(0, 6)];
-            return op + " " + reg[IR.Substring(6, 5)] + ","
+            return op + " " + reg[IR.Substring(11, 5)] + ","
                 + Convert.ToString(getImm(IR.Substring(16, 16)))
-                + "(" + reg[IR.Substring(11, 5)] + ")";
+                + "(" + reg[IR.Substring(6, 5)] + ")";
         }
 
         private string Jtype(string IR)
@@ -182,7 +182,7 @@ namespace Simulator
         public static void test()
         {
             Disassembler dasm = new Disassembler();
-            string example = "00000000000100000000000100000010\n10001110010100010000000001111011\n10101110010100011111111111111111";
+            string example = "00000001000100000000100000101011\n00010000000000011111111111111110\n10101110010100010000000001100100\n00100010001100000000001111101000\n00001011111111111111111111111011";
             System.Console.WriteLine(dasm.converting(example));
         }
     }

@@ -1,0 +1,19 @@
+sne     $t0, $a3, $a2
+seq     $t1, $a3, $a3
+sle     $t0, $a3, $a2
+sleu    $t1, $a3, $a2
+sge     $t0, $a3, $a2
+sgeu    $t1, $a3, $a2
+nop
+sltu    $t1, $a2, $a2
+slt     $t2, $a2, $a2
+ori     $t2, $a2, 0
+andi    $t3, $a3, 0
+nor     $t2, $at, $at
+or      $t2, $a2, $zero
+and     $t3, $a3, $zero
+strlen: add   $t0, $a0, $zero
+R0:     beq   $t1, $zero, exit
+        addi  $t1, $t1, -1
+        beq   $zero, $zero, R0
+exit:   sub   $v0, $t0, $a0

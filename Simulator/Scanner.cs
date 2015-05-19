@@ -129,7 +129,7 @@ namespace Simulator
 			for(int i=0;i<Code.Length;)
 			{
 				while((i<Code.Length)&&(validChar(Code[i])==0)) i++;
-				if(i==Code.Length) return ans;
+				if(i==Code.Length) break;
 				string s="";
 				while((i<Code.Length)&&(validChar(Code[i])==1)) s=s+Code[i++];
 				if((i<Code.Length)&&(validChar(Code[i])==3))
@@ -211,7 +211,7 @@ namespace Simulator
 				case "ble":
 				case "bleu":
 				case "blt":
-                case "bltu": ans.rs = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.loc = (short)label[lis[3]]; ans.imme = (short)(IR[ans.loc].pos - ans.pos - 1); break;
+                case "bltu": ans.rs = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.loc = (short)label[lis[3]]; ans.imme = (short)(IR[ans.loc].pos - ans.pos - 2); break;
                 case "beq":
                 case "bne": ans.rs = reg[lis[1]]; ans.rt = reg[lis[2]]; ans.loc = (short)label[lis[3]]; ans.imme = (short)(IR[ans.loc].pos - ans.pos - 1); break;
 				case "jal":
