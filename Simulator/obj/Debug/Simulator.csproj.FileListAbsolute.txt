@@ -7,3 +7,4 @@ E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.Properties.Resources.
 E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.csproj.GenerateResource.Cache
 E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.exe
 E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.pdb
+E:\Sylvanus\studio\Simulator\Simulator\obj\Debug\Simulator.csprojResolveAssemblyReference.cache

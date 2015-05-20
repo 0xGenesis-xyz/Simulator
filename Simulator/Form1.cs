@@ -8,11 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Simulator
 {
     public partial class Form1 : Form
     {
+//        [DllImport("user32")]
+//        private static extern int GetScrollPos(IntPtr hWnd, Int32 nBar);
+
         static TextBox[] textBoxRegs=new TextBox[32];
         static TextBox textBoxMem=new TextBox();
         static int[] memory=new int[128];
@@ -87,6 +91,12 @@ namespace Simulator
  //               richTextBoxAssemblyCode.Lines = lines;
                 richTextBoxAssemblyCode.Select(richTextBoxAssemblyCode.GetFirstCharIndexFromLine(newPC), richTextBoxAssemblyCode.Lines[newPC].Length);
                 richTextBoxAssemblyCode.SelectionBackColor = Color.LightBlue;
+                if (newPC>21)
+                {
+//                    GetScrollPos(richTextBoxAssemblyCode, 1);
+                    richTextBoxAssemblyCode.Select(richTextBoxAssemblyCode.GetFirstCharIndexFromLine(newPC-21), richTextBoxAssemblyCode.Lines[newPC].Length);
+                    richTextBoxAssemblyCode.ScrollToCaret();
+                }
                 richTextBoxAssemblyCode.Select(richTextBoxAssemblyCode.GetFirstCharIndexFromLine(oldPC), richTextBoxAssemblyCode.Lines[oldPC].Length);
                 richTextBoxAssemblyCode.SelectionBackColor = Color.White;
                 richTextBoxAssemblyCode.Select(0, 0);
@@ -97,6 +107,7 @@ namespace Simulator
         private void startDebuggingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("Start debugging...");
+            runToolStripMenuItem.Enabled = false;
             startDebuggingToolStripMenuItem.Enabled = false;
             stepIntoToolStripMenuItem.Enabled = true;
             stopToolStripMenuItem.Enabled = true;
@@ -130,6 +141,7 @@ namespace Simulator
             richTextBoxAssemblyCode.SelectionBackColor = Color.White;
             richTextBoxAssemblyCode.Select(0, 0);
             richTextBoxAssemblyCode.ReadOnly = false;
+            runToolStripMenuItem.Enabled = true;
             startDebuggingToolStripMenuItem.Enabled = true;
             stepIntoToolStripMenuItem.Enabled = false;
             stopToolStripMenuItem.Enabled = false;
